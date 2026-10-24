@@ -79,7 +79,7 @@ Source: "References\operadriver.exe";   DestDir: "{app}"; Flags: ignoreversion; 
 Source: "References\phantomjs.exe";     DestDir: "{app}"; Flags: ignoreversion; Components: pkg_pjs;
 Source: "References\iedriver.exe";      DestDir: "{app}"; Flags: ignoreversion; Components: pkg_ie;
 ;Source: "References\iedriver64.exe";    DestDir: "{app}"; Flags: ignoreversion; Components: pkg_ie;  Check: IsWin64;
-Source: "References\edgedriver.exe";    DestDir: "{app}"; Flags: ignoreversion; Components: pkg_edg;
+Source: "References\msedgedriver.exe";  DestDir: "{app}"; Flags: ignoreversion; Components: pkg_edg;
 
 ;Firefox extensions
 Source: "FirefoxAddons\bin\extensions.xpi"; DestDir: "{app}"; Flags: ignoreversion; Components: pkg_ide;
