@@ -12,7 +12,7 @@ namespace Selenium.Internal {
 
         public static object WaitUntilProc(object function, object argument1, object argument2, int timeout) {
             DateTime endtime = DateTime.UtcNow.AddMilliseconds(timeout);
-                object result = null;
+            object result = null;
             try {
                 if (function is int) {
                     //handles AddressOf
