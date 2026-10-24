@@ -194,6 +194,7 @@
     <Compile Include="Drivers\OperaDriver.cs" />
     <Compile Include="Drivers\PhantomJSDriver.cs" />
     <Compile Include="Core\DriverService.cs" />
+    <Compile Include="Core\DriverUpdater.cs" />
     <Compile Include="Common\SelectElement.cs" />
     <Compile Include="Common\TableElement.cs" />
     <Compile Include="Internal\ExcelExt.cs" />
