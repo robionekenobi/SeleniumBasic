@@ -20,9 +20,6 @@ namespace Selenium.Core {
         const int REQUEST_TIMEOUT = 30000;
         const int MUTEX_TIMEOUT = 120000;
 
-        //Tls12 is not defined in the .Net 3.5 enumeration
-        const SecurityProtocolType TLS12 = (SecurityProtocolType)3072;
-
         class Source {
             public string Driver;
             public string Browser;
@@ -160,7 +157,7 @@ namespace Selenium.Core {
         /// <returns>Path of the extracted driver</returns>
         private static string Download(Source source, int major, out string directory) {
             directory = null;
-            ServicePointManager.SecurityProtocol |= TLS12;
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 
             string text = source.VersionEncoding.GetString(
                 DownloadData(string.Format(source.VersionUrl, major)));

@@ -42,7 +42,7 @@ ArchitecturesInstallIn64BitMode=x64
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [CustomMessages]
-MsgNETFrameworkNotInstalled=Microsoft .NET Framework 3.5 installation was Not detected. 
+MsgNETFrameworkNotInstalled=Microsoft .NET Framework 4.8 installation was Not detected.
 MsgRegistryWriteFailure=Failed to register the library due to insufficient privileges. 
 MsgFileNotFound=File Not found: %1. 
 MsgCOMInvokeFailed=Installation failed. The installer was unable to call the registered library. 
@@ -348,9 +348,13 @@ Procedure PatchOfficeFileVersion();
     _PatchOfficeFileVersion('SOFTWARE\Microsoft\.NETFramework\Policy\AppPatch\v2.0.50727.00000\winword.exe\{2CCAA9FE-6884-4AF2-99DD-5217B94115DF}'); 
   End;
 
-Procedure AssertFrameworkPresent(Const version: String);
+// .NET Framework 4.5 and later share the v4\Full key, the version is given by the Release value
+// (528040 = 4.8, https://learn.microsoft.com/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed)
+Procedure AssertFrameworkPresent(Const minRelease: Cardinal);
+  Var release: Cardinal;
   Begin
-    If Not RegKeyExists(HKLM,'SOFTWARE\Microsoft\NET Framework Setup\NDP\v' + version) Then
+    If Not RegQueryDWordValue(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Release', release)
+      Or (release < minRelease) Then
         RaiseException(ExpandConstant('{cm:MsgNETFrameworkNotInstalled}'));
   End;
 
@@ -440,7 +444,7 @@ Procedure RegInterface(Const lib : TNetLib; Const guid, name, proxystub: String)
 //   ""="mscoree.dll"
 //   "Class"="Selenium.Structures.Point"
 //   "Assembly"="Selenium, Version=2.0.1.2, Culture=neutral, PublicKeyToken=null"
-//   "RuntimeVersion"="v2.0.50727"
+//   "RuntimeVersion"="v4.0.30319"
 //   "CodeBase"="C:\...\SeleniumBasic\Selenium.dll"
 //
 Procedure RegRecord(Const lib : TNetLib; Const guid, typename: String);
@@ -464,7 +468,7 @@ Procedure RegRecord(Const lib : TNetLib; Const guid, typename: String);
 //     ""="C:\Windows\System32\mscoree.dll"
 //     "Class"="Selenium.WebDriver"
 //     "Assembly"="Selenium, Version=2.0.1.2, Culture=neutral, PublicKeyToken=null"
-//     "RuntimeVersion"="v2.0.50727"
+//     "RuntimeVersion"="v4.0.30319"
 //     "CodeBase"="C:\...\SeleniumBasic\Selenium.dll"
 //     "ThreadingModel"="Both"
 //   \Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}
@@ -568,7 +572,7 @@ Function InitializeSetup() : Boolean;
   Begin
     ALL_USERS := HasPrivileges();
     InitRootKeys();
-    //AssertFrameworkPresent('3.5');
+    AssertFrameworkPresent(528040);
     Result := True;
   End;
       
