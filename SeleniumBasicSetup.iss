@@ -516,7 +516,7 @@ Procedure RegClass(Const lib : TNetLib; Const guid, progid, typename: String);
     If Not IsUninstaller Then Begin
       RegString(HK, key, '', progid);
       RegString(HK, key + '\CLSID', '', guid);
-    End
+    End;
 
     RegClsid(lib, HK, guid, progid, typename, '{sys}');
     If IsWin64 Then
